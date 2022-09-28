@@ -44,3 +44,9 @@ Route::get('/kategori', [\App\Http\Controllers\HomepageController::class,'katego
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('slideshow',\App\Http\Controllers\SlideshowController::class);
+
+Route::resource('cart', App\Http\Controllers\CartController::class);
+Route::patch('kosongkan/{id}',
+[\App\Http\Controllers\CartController::class,'kosongkan']);
+Route::resource('cartdetail', App\Http\Controllers\CartDetailController::class);
