@@ -44,9 +44,18 @@ Route::get('/kategori', [\App\Http\Controllers\HomepageController::class,'katego
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('slideshow',\App\Http\Controllers\SlideshowController::class);
 
-Route::resource('cart', App\Http\Controllers\CartController::class);
-Route::patch('kosongkan/{id}',
-[\App\Http\Controllers\CartController::class,'kosongkan']);
-Route::resource('cartdetail', App\Http\Controllers\CartDetailController::class);
+
+// shopping cart
+Route::group(['middleware' => 'auth'], function() {
+    // cart
+    Route::resource('cart', 'CartController');
+    Route::patch('kosongkan/{id}', 'CartController@kosongkan');
+    // cart detail
+    Route::resource('cartdetail', 'CartDetailController');
+  });
+
+// alamat pengiriman
+Route::resource('alamatpengiriman', 'AlamatPengirimanController');
+// checkout
+Route::get('checkout', 'CartController@checkout');
